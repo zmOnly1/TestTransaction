@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <Appenders>
+        <!--添加一个控制台追加器-->
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout>
+                <pattern>[%-5p] %d %c - %m%n</pattern>
+            </PatternLayout>
+        </Console>
+        <!--添加一个文本追加器，文件位于根目录下，名为log.log-->
+        <File name="File" fileName="logs/spring.log">
+            <PatternLayout>
+                <pattern>[%-5p] %d %c - %m%n</pattern>
+            </PatternLayout>
+        </File>        <!--添加一个文本追加器，文件位于根目录下，名为log.log-->
+        <File name="SQL" fileName="logs/sql.log">
+            <PatternLayout>
+                <pattern>[%-5p] %d %c - %m%n</pattern>
+            </PatternLayout>
+        </File>        <!--添加一个文本追加器，文件位于根目录下，名为log.log-->
+        <File name="Service" fileName="logs/service.log">
+            <PatternLayout>
+                <pattern>[%-5p] %d %c - %m%n</pattern>
+            </PatternLayout>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+        </Root>
+        <Logger name="org.springframework.transaction" level="debug" additivity="false">
+            <AppenderRef ref="File"/>
+        </Logger>
+        <Logger name="jdbc.sqlonly" level="debug" additivity="false">
+            <AppenderRef ref="SQL"/>
+        </Logger>
+        <Logger name="com.example.demo" level="debug" additivity="false">
+            <AppenderRef ref="Service"/>
+        </Logger>
+    </Loggers>
+</Configuration>
