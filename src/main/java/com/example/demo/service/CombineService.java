@@ -15,22 +15,53 @@ public class CombineService {
 
     private final PassportNumberService passportNumberService;
     private final CodeSequenceService codeSequenceService;
+    private final StudentService studentService;
 
-    public CombineService(CodeSequenceService codeSequenceService, PassportNumberService passportNumberService) {
+    public CombineService(CodeSequenceService codeSequenceService, PassportNumberService passportNumberService, StudentService studentService) {
         this.codeSequenceService = codeSequenceService;
         this.passportNumberService = passportNumberService;
+        this.studentService = studentService;
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public String execute(String name) {
+    public String execute(String name, boolean isThrowException) {
         String passport = codeSequenceService.genCode(name);
-        //passportNumberService.savePassport(passport);
+        passportNumberService.savePassportWithTrans(passport, isThrowException);
         return passport;
     }
 
     @Transactional
-    public String savePassport(String name) {
-        passportNumberService.savePassport(name);
+    public String savePassport(String name, boolean isThrowException) {
+        passportNumberService.savePassportWithTrans(name, isThrowException);
         return "OK";
     }
+
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    public void executeNoTrans(String name, boolean isThrowException) {
+        studentService.save();
+        passportNumberService.savePassportWithNoTrans(name, isThrowException);
+    }
+
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    public void executeRetryButNoTrans(String name, boolean isThrowException) {
+        studentService.save();
+        passportNumberService.savePassportWithRetryButNoTrans(name, isThrowException);
+    }
+
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    public void executeRetryAndTrans(String name, boolean isThrowException) {
+        studentService.save();
+        passportNumberService.savePassportWithRetryAndTrans(name, isThrowException);
+    }
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    public void executeRetryAndTransNoRollback(String name, boolean isThrowException) {
+        studentService.save();
+        passportNumberService.savePassportWithRetryAndTransNoRollback(name, isThrowException);
+    }
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    public void executeWithTransThenRetry(String name, boolean isThrowException) {
+        studentService.save();
+        passportNumberService.savePassportWithTransThenRetry(name, isThrowException);
+    }
+
 }

@@ -33,4 +33,10 @@ dependencies {
     testImplementation 'io.projectreactor:reactor-test'
     runtimeOnly 'com.googlecode.log4jdbc:log4jdbc:1.2'
     runtimeOnly 'com.h2database:h2'
+
+    // https://mvnrepository.com/artifact/net.javacrumbs.shedlock/shedlock-spring
+    compile group: 'net.javacrumbs.shedlock', name: 'shedlock-spring', version: '2.5.0'
+// https://mvnrepository.com/artifact/net.javacrumbs.shedlock/shedlock-provider-jdbc-template
+    compile group: 'net.javacrumbs.shedlock', name: 'shedlock-provider-jdbc-template', version: '2.5.0'
+
 }

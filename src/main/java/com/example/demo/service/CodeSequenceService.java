@@ -12,7 +12,6 @@ import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -38,7 +37,7 @@ public class CodeSequenceService {
         throw new ExceedMaxRetryException(e.getMessage());
     }
 
-    @Transactional(noRollbackFor = {PassportNumberExistException.class}, isolation = Isolation.REPEATABLE_READ)
+    @Transactional(noRollbackFor = {PassportNumberExistException.class})
     @Retryable(value = {Exception.class},
         maxAttempts = 10, backoff = @Backoff(delay = 200, multiplier = 1))
     public String genCode(String name) {

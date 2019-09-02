@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,7 +15,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-@Table(name = "student", uniqueConstraints = {@UniqueConstraint(name = "unique_passport_number", columnNames = "passportNumber")})
+@DynamicUpdate
+@DynamicInsert
+@Table(name = "student",
+    uniqueConstraints = {@UniqueConstraint(name = "unique_passport_number",
+        columnNames = "passportNumber")})
 @Entity
 @Getter
 @Setter
@@ -23,7 +29,7 @@ import javax.persistence.UniqueConstraint;
 public class Student {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String passportNumber;
